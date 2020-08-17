@@ -95,7 +95,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              'Web Design\nCourse Udemy',
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,

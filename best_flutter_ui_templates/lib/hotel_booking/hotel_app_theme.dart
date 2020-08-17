@@ -22,8 +22,9 @@ class HotelAppTheme {
   }
 
   static ThemeData buildLightTheme() {
-    final Color primaryColor = HexColor('#54D3C2');
-    final Color secondaryColor = HexColor('#54D3C2');
+    //final Color primaryColor = HexColor('#54D3C2');
+    final Color primaryColor = HexColor('#00b6f0');
+    final Color secondaryColor = HexColor('#00b6f0');
     final ColorScheme colorScheme = const ColorScheme.light().copyWith(
       primary: primaryColor,
       secondary: secondaryColor,

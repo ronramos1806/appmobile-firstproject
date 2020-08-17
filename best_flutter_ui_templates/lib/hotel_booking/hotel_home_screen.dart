@@ -1,10 +1,14 @@
 import 'dart:ui';
 import 'package:best_flutter_ui_templates/hotel_booking/calendar_popup_view.dart';
 import 'package:best_flutter_ui_templates/hotel_booking/hotel_list_view.dart';
+import 'package:best_flutter_ui_templates/hotel_booking/model/announce_model.dart';
 import 'package:best_flutter_ui_templates/hotel_booking/model/hotel_list_data.dart';
+import 'package:best_flutter_ui_templates/hotel_booking/providers/announces_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
+import '../design_course/course_info_screen.dart';
+import 'announces_list_view.dart';
 import 'filters_screen.dart';
 import 'hotel_app_theme.dart';
 
@@ -18,6 +22,8 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   AnimationController animationController;
   List<HotelListData> hotelList = HotelListData.hotelList;
   final ScrollController _scrollController = ScrollController();
+
+  final announcesProvider = new AnnouncesProvider();
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
@@ -88,29 +94,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                         body: Container(
                           color:
                               HotelAppTheme.buildLightTheme().backgroundColor,
-                          child: ListView.builder(
-                            itemCount: hotelList.length,
-                            padding: const EdgeInsets.only(top: 8),
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              final int count =
-                                  hotelList.length > 10 ? 10 : hotelList.length;
-                              final Animation<double> animation =
-                                  Tween<double>(begin: 0.0, end: 1.0).animate(
-                                      CurvedAnimation(
-                                          parent: animationController,
-                                          curve: Interval(
-                                              (1 / count) * index, 1.0,
-                                              curve: Curves.fastOutSlowIn)));
-                              animationController.forward();
-                              return HotelListView(
-                                callback: () {},
-                                hotelData: hotelList[index],
-                                animation: animation,
-                                animationController: animationController,
-                              );
-                            },
-                          ),
+                          child: _getListAnnounces(),
                         ),
                       ),
                     )
@@ -120,6 +104,53 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _getListAnnounces() {
+    return FutureBuilder(
+      future: announcesProvider.loadAnnounces(),
+      builder:
+          (BuildContext context, AsyncSnapshot<List<AnnounceModel>> snapshot) {
+        if (snapshot.hasData) {
+          final announces = snapshot.data;
+
+          return ListView.builder(
+            itemCount: announces.length,
+            padding: const EdgeInsets.only(top: 8),
+            scrollDirection: Axis.vertical,
+            itemBuilder: (BuildContext context, int index) {
+              final int count = announces.length > 10 ? 10 : announces.length;
+              final Animation<double> animation =
+                  Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                      parent: animationController,
+                      curve: Interval((1 / count) * index, 1.0,
+                          curve: Curves.fastOutSlowIn)));
+              animationController.forward();
+              return AnnouncesListView(
+                callback: () {
+                  print('queriendo entrar a ver un hotel');
+                  moveTo();
+                },
+                announceModel: announces[index],
+                animation: animation,
+                animationController: animationController,
+              );
+            },
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+    );
+  }
+
+  void moveTo() {
+    Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => CourseInfoScreen(),
       ),
     );
   }
@@ -552,7 +583,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
             Expanded(
               child: Center(
                 child: Text(
-                  'Explore',
+                  'Cachueleate',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,
