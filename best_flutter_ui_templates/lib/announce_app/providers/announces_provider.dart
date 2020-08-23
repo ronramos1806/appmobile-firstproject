@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:best_flutter_ui_templates/hotel_booking/model/announce_model.dart';
+import 'package:best_flutter_ui_templates/announce_app/model/announce_model.dart';
 import 'package:http/http.dart' as http;
 
 class AnnouncesProvider {

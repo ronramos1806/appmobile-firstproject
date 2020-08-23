@@ -1,26 +1,25 @@
 import 'dart:ui';
-import 'package:best_flutter_ui_templates/hotel_booking/calendar_popup_view.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/hotel_list_view.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/model/announce_model.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/model/hotel_list_data.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/providers/announces_provider.dart';
+
+import 'package:best_flutter_ui_templates/announce_app/calendar_popup_view.dart';
+import 'package:best_flutter_ui_templates/announce_app/model/announce_model.dart';
+import 'package:best_flutter_ui_templates/announce_app/providers/announces_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
-import '../design_course/course_info_screen.dart';
+
+import 'course_info_screen.dart';
 import 'announces_list_view.dart';
 import 'filters_screen.dart';
-import 'hotel_app_theme.dart';
+import 'announce_app_theme.dart';
 
-class HotelHomeScreen extends StatefulWidget {
+class AnnounceHomeScreen extends StatefulWidget {
   @override
-  _HotelHomeScreenState createState() => _HotelHomeScreenState();
+  _AnnounceHomeScreenState createState() => _AnnounceHomeScreenState();
 }
 
-class _HotelHomeScreenState extends State<HotelHomeScreen>
+class _AnnounceHomeScreenState extends State<AnnounceHomeScreen>
     with TickerProviderStateMixin {
   AnimationController animationController;
-  List<HotelListData> hotelList = HotelListData.hotelList;
   final ScrollController _scrollController = ScrollController();
 
   final announcesProvider = new AnnouncesProvider();
@@ -49,7 +48,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: HotelAppTheme.buildLightTheme(),
+      data: AnnounceAppTheme.buildLightTheme(),
       child: Container(
         child: Scaffold(
           body: Stack(
@@ -76,8 +75,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                                   (BuildContext context, int index) {
                                 return Column(
                                   children: <Widget>[
-                                    getSearchBarUI(),
-                                    getTimeDateUI(),
+                                    getSearchBarUI()
                                   ],
                                 );
                               }, childCount: 1),
@@ -93,7 +91,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                         },
                         body: Container(
                           color:
-                              HotelAppTheme.buildLightTheme().backgroundColor,
+                              AnnounceAppTheme.buildLightTheme().backgroundColor,
                           child: _getListAnnounces(),
                         ),
                       ),
@@ -130,7 +128,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               animationController.forward();
               return AnnouncesListView(
                 callback: () {
-                  print('queriendo entrar a ver un hotel');
+                  print('Se pulsa un card');
                   moveTo();
                 },
                 announceModel: announces[index],
@@ -152,84 +150,6 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
       MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => CourseInfoScreen(),
       ),
-    );
-  }
-
-  Widget getListUI() {
-    return Container(
-      decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              offset: const Offset(0, -2),
-              blurRadius: 8.0),
-        ],
-      ),
-      child: Column(
-        children: <Widget>[
-          Container(
-            height: MediaQuery.of(context).size.height - 156 - 50,
-            child: FutureBuilder<bool>(
-              future: getData(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (!snapshot.hasData) {
-                  return const SizedBox();
-                } else {
-                  return ListView.builder(
-                    itemCount: hotelList.length,
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      final int count =
-                          hotelList.length > 10 ? 10 : hotelList.length;
-                      final Animation<double> animation =
-                          Tween<double>(begin: 0.0, end: 1.0).animate(
-                              CurvedAnimation(
-                                  parent: animationController,
-                                  curve: Interval((1 / count) * index, 1.0,
-                                      curve: Curves.fastOutSlowIn)));
-                      animationController.forward();
-
-                      return HotelListView(
-                        callback: () {},
-                        hotelData: hotelList[index],
-                        animation: animation,
-                        animationController: animationController,
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget getHotelViewList() {
-    final List<Widget> hotelListViews = <Widget>[];
-    for (int i = 0; i < hotelList.length; i++) {
-      final int count = hotelList.length;
-      final Animation<double> animation =
-          Tween<double>(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: animationController,
-          curve: Interval((1 / count) * i, 1.0, curve: Curves.fastOutSlowIn),
-        ),
-      );
-      hotelListViews.add(
-        HotelListView(
-          callback: () {},
-          hotelData: hotelList[i],
-          animation: animation,
-          animationController: animationController,
-        ),
-      );
-    }
-    animationController.forward();
-    return Column(
-      children: hotelListViews,
     );
   }
 
@@ -361,7 +281,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: HotelAppTheme.buildLightTheme().backgroundColor,
+                  color: AnnounceAppTheme.buildLightTheme().backgroundColor,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(38.0),
                   ),
@@ -380,10 +300,10 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                     style: const TextStyle(
                       fontSize: 18,
                     ),
-                    cursorColor: HotelAppTheme.buildLightTheme().primaryColor,
+                    cursorColor: AnnounceAppTheme.buildLightTheme().primaryColor,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'London...',
+                      hintText: 'Busca el celular para ti ...',
                     ),
                   ),
                 ),
@@ -392,7 +312,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
           ),
           Container(
             decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().primaryColor,
+              color: AnnounceAppTheme.buildLightTheme().primaryColor,
               borderRadius: const BorderRadius.all(
                 Radius.circular(38.0),
               ),
@@ -411,12 +331,13 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                 ),
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
+                  print('Ejecutar busqueda aqui');
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Icon(FontAwesomeIcons.search,
                       size: 20,
-                      color: HotelAppTheme.buildLightTheme().backgroundColor),
+                      color: AnnounceAppTheme.buildLightTheme().backgroundColor),
                 ),
               ),
             ),
@@ -436,7 +357,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
           child: Container(
             height: 24,
             decoration: BoxDecoration(
-              color: HotelAppTheme.buildLightTheme().backgroundColor,
+              color: AnnounceAppTheme.buildLightTheme().backgroundColor,
               boxShadow: <BoxShadow>[
                 BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
@@ -447,7 +368,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
           ),
         ),
         Container(
-          color: HotelAppTheme.buildLightTheme().backgroundColor,
+          color: AnnounceAppTheme.buildLightTheme().backgroundColor,
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 4),
@@ -457,7 +378,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      '530 hotels found',
+                      'Los más buscados',
                       style: TextStyle(
                         fontWeight: FontWeight.w100,
                         fontSize: 16,
@@ -489,7 +410,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                       child: Row(
                         children: <Widget>[
                           Text(
-                            'Filter',
+                            'Filtrar',
                             style: TextStyle(
                               fontWeight: FontWeight.w100,
                               fontSize: 16,
@@ -498,7 +419,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Icon(Icons.sort,
-                                color: HotelAppTheme.buildLightTheme()
+                                color: AnnounceAppTheme.buildLightTheme()
                                     .primaryColor),
                           ),
                         ],
@@ -547,7 +468,7 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
   Widget getAppBarUI() {
     return Container(
       decoration: BoxDecoration(
-        color: HotelAppTheme.buildLightTheme().backgroundColor,
+        color: AnnounceAppTheme.buildLightTheme().backgroundColor,
         boxShadow: <BoxShadow>[
           BoxShadow(
               color: Colors.grey.withOpacity(0.2),
@@ -564,26 +485,26 @@ class _HotelHomeScreenState extends State<HotelHomeScreen>
               alignment: Alignment.centerLeft,
               width: AppBar().preferredSize.height + 40,
               height: AppBar().preferredSize.height,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(32.0),
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(Icons.arrow_back),
-                  ),
-                ),
-              ),
+              // child: Material(
+              //   color: Colors.transparent,
+              //   child: InkWell(
+              //     borderRadius: const BorderRadius.all(
+              //       Radius.circular(32.0),
+              //     ),
+              //     onTap: () {
+              //       Navigator.pop(context);
+              //     },
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Icon(Icons.arrow_back),
+              //     ),
+              //   ),
+              // ),
             ),
             Expanded(
               child: Center(
                 child: Text(
-                  'Cachueleate',
+                  'Mi tiendita',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 22,

@@ -1,5 +1,5 @@
-import 'package:best_flutter_ui_templates/hotel_booking/hotel_app_theme.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/model/announce_model.dart';
+import 'package:best_flutter_ui_templates/announce_app/announce_app_theme.dart';
+import 'package:best_flutter_ui_templates/announce_app/model/announce_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -61,7 +61,7 @@ class AnnouncesListView extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              color: HotelAppTheme.buildLightTheme()
+                              color: AnnounceAppTheme.buildLightTheme()
                                   .backgroundColor,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class AnnouncesListView extends StatelessWidget {
                                                 Icon(
                                                   FontAwesomeIcons.mapMarkerAlt,
                                                   size: 12,
-                                                  color: HotelAppTheme
+                                                  color: AnnounceAppTheme
                                                           .buildLightTheme()
                                                       .primaryColor,
                                                 ),
@@ -132,10 +132,10 @@ class AnnouncesListView extends StatelessWidget {
                                                     starCount: 5,
                                                     rating: 99.99,
                                                     size: 20,
-                                                    color: HotelAppTheme
+                                                    color: AnnounceAppTheme
                                                             .buildLightTheme()
                                                         .primaryColor,
-                                                    borderColor: HotelAppTheme
+                                                    borderColor: AnnounceAppTheme
                                                             .buildLightTheme()
                                                         .primaryColor,
                                                   ),
@@ -200,7 +200,7 @@ class AnnouncesListView extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Icon(
                                   Icons.favorite_border,
-                                  color: HotelAppTheme.buildLightTheme()
+                                  color: AnnounceAppTheme.buildLightTheme()
                                       .primaryColor,
                                 ),
                               ),

@@ -1,9 +1,9 @@
 import 'dart:io';
+
+import 'package:best_flutter_ui_templates/announce_app/announce_home_screen.dart';
 import 'package:best_flutter_ui_templates/app_theme.dart';
-import 'package:best_flutter_ui_templates/hotel_booking/hotel_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'navigation_home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return MaterialApp(
-      title: 'Flutter UI',
+      title: 'MiTiendita',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         platform: TargetPlatform.iOS,
       ),
       //home: NavigationHomeScreen(),
-      home: HotelHomeScreen(), // Load first screen like HotelHomeScreen
+      home: AnnounceHomeScreen(), // Load first screen like HotelHomeScreen
     );
   }
 }
